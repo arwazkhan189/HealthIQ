@@ -1,0 +1,23 @@
+{
+  "type": "service_account",
+  "project_id": "healthiq-eb948",
+  "private_key_id": "83086e5eda2c8f603a66bf4f14841e4a93d940f6",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC7T+6a2WdAdDiO\nbgXgeA1aem0bvt6xpEnzi+tgrop33OHwE04QMOYzMBt55tDyOQ9yuAIYDigihyla\nb/07Gje8oCz/yu+o9RbGc+0diX6mcZHdBdPjXxrpiSG0/ZUX6N4ijP4JYfKNAnFJ\nwH5OTy5Tfn/4HU+2LBgoQhyFv26mhB0SOQKAFE6RcT/FwTmYv6yH1qsyVeErv4SI\n36aLnKxTeD2rYUfHyHl0sXpwg1nhyNXxMiDo7/3x9tz/oCHxRTi5CfdTaJsFeGyr\nylUuVkjyy3uPhTxx04+BQuo49w9x14XoV6VdGbxvmPr6HjVEWv70+TNJ7YvTxwXh\n+0OMFilzAgMBAAECggEAAxbrMTrc0/Q7DvrjZQ9l3PzABvZ+9PfflEE8ZFo3UVYS\npWwLj2mKRBXPSFeu/CFoV3Sx21jZw3yQovNFddYATWpoZbxcVYsPN884jwnLtBaC\nVIC2ATnG/dO4DGBbDG2tXI9lhFizigrgkjfQn6X5B1cxtVvtm+O31VpsvL7Q8uh5\ndymyQZNmmJ5XGjJVSpOUeIpPFhR5QV0NKQAM0ju3ev6cCMgXRNUuiUrqzgzWFWPS\n4cyIwkDacu9BcdND16zk6cJNORl/0im2MUZ1ILklKXJEqId203cVXmpdqIe06zg4\nJ22PO4mr5Gg3anN8uaF4nYA+z3xrVDYAPaf2ITFELQKBgQD34GS0iMMJ/bNWut5v\nAg55hNVbElVYlRuSLHguPG+Vbj/Cnfaxw4YCO16KmR2pA1oWlEoFT/JuI2u259Lz\nJ4dGWc8mQzRiI+L01BNviiEXOResqXJh/5qttQD1UaXy8nPps0iyS4tdStcl2lZo\nk9uKf5biLc0/T9X/vNY5PE7v7wKBgQDBc2xRbCVDuFCWQWsWSJYQTd7NIb2LDO7V\nRkY/CHuV9xRhttfKNRCvPTYFaHlzLXml6iUx6tmihNOjUpxbaYDdSjQ+vJdwau9G\nXXYd5FapQMW6ExS0CLrsKcWK+QIQNUL/avjtG++e5ud/gPcBIlEe/LEI5wHU7WiN\nmnmlPNtavQKBgEUxOCtE+dyyGvuc0jZ+hnfZYo03gudlR/r3utx9NlCqI9Y5rgFV\nKPU6iVt6/lKNgvpGjpsJBA1GiezWrYX+hL5Yl4CAxgCXL+VTxdEe57nJ0Bf8fNdq\nOE1A93GDRyWYFE8qIqLSf6adG42PcwtiKqhwkTe1vVNs/7mRhuMXOJm1AoGANRNz\nC5/tVXgzfBY0yGdf7NdAou138Le6q39ddJviNJIW4HxnFk6a5kmYEcHJWKWIc9Ib\nJGf4EFP7MRtQVPBMb+qVDQV3U1uzjI3GA4uLj2J7HYNwsbiXeIY5cdjCDSpf2G5E\nH+IDS4i0yVHb8060DRlthTDEWuRMRFW2vHRHBs0CgYEAsaYEZfJLGoyEiIpaIhZb\n7r9RL7N0sekMhPlHzUcdiipUqsOIz7AKF7qxdQ8IhC0vEdntbzuHumbE7aG2HvcZ\noJXRfFqkXI826cuKSwQiSuw+OO0lA270F8ouFXuKoPHPunFJuBvovSUh/UJQIdi2\nRVXges7zf58I2RESN+i4GpM=\n-----END PRIVATE KEY-----\n",
+  "client_email": "firebase-adminsdk-bb7kj@healthiq-eb948.iam.gserviceaccount.com",
+  "client_id": "118087837065899946393",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-bb7kj%40healthiq-eb948.iam.gserviceaccount.com",
+  "apiKey": "AIzaSyA89HYc83eqRgkxr9pUIq2wvJaxFgvr7Fw",
+  "authDomain": "healthiq-eb948.firebaseapp.com",
+  "projectId": "healthiq-eb948",
+  "storageBucket": "healthiq-eb948.appspot.com",
+  "messagingSenderId": "476294092635",
+  "appId": "1:476294092635:web:4849c149a6c84a0ac32c7e",
+  "measurementId": "G-3BPRL5B4LM",
+  "storageImagePath": "gs://healthiq-eb948.appspot.com/",
+  "x-rapidapi-key": "9c0876f218msh69dcb99b5ad9b98p19d2aajsnc378c816e921",
+  "x-rapidapi-host": "exerciseapi3.p.rapidapi.com",
+  "x-rapidapi-url": "https://exerciseapi3.p.rapidapi.com/search/"
+}

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - HealthIQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+    <link rel="stylesheet" href="./css/sign-up.css">
+    <link rel="stylesheet" href="./css/nav-style.css">
+</head>
+
+<body>
+
+    <header class="head">
+        <div class="resume2hire-text my-5">
+            <img src="img/r2hlogo.png" alt="" srcset="" class="img-logo">
+        </div>
+
+        <div class="hamburger">
+            <img src="img/hamburger.png" alt="menu">
+        </div>
+
+
+        <nav class="nav-bar">
+            <ul class="list-unstyled ">
+                <li class="">
+                    <a href="/">Home</a>
+                </li>
+                <li>
+                    <a href="http://localhost:3000" target="_blank" class="text-decoration-none">Resume Builder</a>
+                </li>
+                <li>
+                    <a href="/screening" class="text-decoration-none">Screening</a>
+                </li>
+                <li>
+                    <a href="/hiring" class="active text-decoration-none">Hiring</a>
+                </li>
+                <li>
+                    <a href="/readJobPost/all" class="text-decoration-none">Jobs</a>
+                </li>
+                <li>
+                    <a href="/#profile-cards" class="text-decoration-none">About Us</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section>
+        <div class="imgBx">
+
+
+            <div id="container">
+                <span id="text1"></span>
+                <span id="text2"></span>
+            </div>
+
+            <svg id="filters">
+                <defs>
+                    <filter id="threshold">
+                        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                      0 1 0 0 0
+                      0 0 1 0 0
+                      0 0 0 255 -140" />
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+
+        <div class="alert-box">
+
+        </div>
+
+        <div class="contentBx">
+            <div class="formBx">
+                <div class="display-heading">
+                    <h2>Sign Up</h2>
+                </div>
+                <div id="errorLabel"></div>
+                <form>
+                    <div class="inputBx">
+                        <label for="email" class="label">Email</label>
+                        <input type="email" name="email" id="email" required placeholder="Ex- xyz123@gmail.com" />
+                    </div>
+                    <div class="inputBx">
+                        <label for="password" class="label">Password</label>
+                        <input type="password" name="password" id="password" required
+                            placeholder="Enter the password..." />
+                    </div>
+
+                    <div class="inputBx">
+                        <label for="confirm_password" class="label">Confirm Password</label>
+                        <input type="password" name="confirm_password" id="confirm_password" required
+                            placeholder="Re-enter the password.." />
+                    </div>
+
+                    <div class="inputBx">
+                        <input type="submit" value="Sign Up" />
+                    </div>
+
+                    <div class="inputBx">
+                        <p>Already Registered? <a href="/signin">Sign In</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="foot">
+                <p>Copyright &#169; HealthIQ</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="./js/text-animation-signup.js"></script>
+</body>
+<script>
+    const password = document.getElementById("password");
+    const confirm_password = document.getElementById("confirm_password");
+    function validatePassword() {
+        if (password.value != confirm_password.value) {
+            confirm_password.setCustomValidity("Passwords Didn't Matched");
+        } else {
+            confirm_password.setCustomValidity("");
+        }
+    }
+    password.onchange = validatePassword;
+    confirm_password.onkeyup = validatePassword;
+
+    const form = document.querySelector("form");
+    const errorLabel = document.getElementById("errorLabel");
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorLabel.textContent = "";
+        const email = form.email.value;
+        const password = form.password.value;
+        try {
+            const res = await fetch('/signup', {
+                method: 'POST',
+                body: JSON.stringify({ email, password }),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            if (data.error) {
+                errorLabel.textContent = data.error;
+            }
+            if (data.email) {
+                location.assign('/hiring');
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+</script>
+
+</html>
