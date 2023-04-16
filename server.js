@@ -116,7 +116,6 @@ app.get("/signout", requireAuth, async (req, res) => {
     });
 });
 
-
 //----------------------Workout recommendation----------------------------
 //workout
 app.get("/workout", async (req, res) => {
@@ -207,16 +206,70 @@ app.get("/exerciseBySecondryMuscle/:id", async (req, res) => {
 });
 
 //----------------------Diet recommendation----------------------------
+// Function to make API requests to the Spoonacular API
+async function makeRequest(endpoint, params) {
+  const response = await axios.get(`https://api.spoonacular.com${endpoint}`, {
+    params: {
+      apiKey: key.diet_api_key,
+      ...params,
+    },
+  });
+  return response.data;
+}
 
+//diet
+app.get("/diet", async (req, res) => {
+  res.sendFile(staticPath + "/diet.html");
+});
+
+//generate meal plan
+app.post("/generate-meal-plan", async (req, res) => {
+  try {
+    const { diet, calories, timeFrame, ingredients } = req.body;
+    const exclude = ingredients
+      ? ingredients
+          .split(",")
+          .map((i) => i.trim())
+          .join(",")
+      : undefined;
+    const mealPlan = await makeRequest("/mealplanner/generate", {
+      diet,
+      targetCalories: calories,
+      timeFrame,
+      exclude,
+    });
+
+    res.json(mealPlan);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("An error occurred while generating the meal plan.");
+  }
+});
 
 /*---------------------------------
 IOT
 ------------------------------------*/
-app.post('/data', (req, res) => {
-  console.log(`Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`);
-  res.send('OK');
+//data fetching from iot sensor
+app.post("/data", (req, res) => {
+  const data = {
+    temperature: req.body.temperature,
+    humidity: req.body.humidity,
+    gas: req.body.gas,
+  };
+
+  console.log(
+    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
+  );
+
+  res.json(data);
 });
 
+//food detect
+app.get("/foodDetect", async (req, res) => {
+  res.sendFile(staticPath + "/foodDetect.html");
+});
+
+//sending iot device data to frontend
 
 /*---------------------------------
 app listen

@@ -19,5 +19,6 @@
   "storageImagePath": "gs://healthiq-eb948.appspot.com/",
   "x-rapidapi-key": "9c0876f218msh69dcb99b5ad9b98p19d2aajsnc378c816e921",
   "x-rapidapi-host": "exerciseapi3.p.rapidapi.com",
-  "x-rapidapi-url": "https://exerciseapi3.p.rapidapi.com/search/"
+  "x-rapidapi-url": "https://exerciseapi3.p.rapidapi.com/search/",
+  "diet_api_key": "a7e2df463f094e87829bab7e94371dcb"
 }

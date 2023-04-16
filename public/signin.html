@@ -12,59 +12,8 @@
 
 <body>
 
-  <header class="head">
-    <div class="resume2hire-text my-5">
-      <img src="img/r2hlogo.png" alt="" srcset="" class="img-logo">
-    </div>
-
-    <div class="hamburger">
-      <img src="img/hamburger.png" alt="menu">
-    </div>
-
-
-    <nav class="nav-bar">
-      <ul class="list-unstyled ">
-        <li class="">
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="http://localhost:3000" target="_blank" class="text-decoration-none">Resume Builder</a>
-        </li>
-        <li>
-          <a href="/screening" class="text-decoration-none">Screening</a>
-        </li>
-        <li>
-          <a href="/hiring" class="active text-decoration-none">Hiring</a>
-        </li>
-        <li>
-          <a href="/readJobPost/all" class="text-decoration-none">Jobs</a>
-        </li>
-        <li>
-          <a href="/#profile-cards" class="text-decoration-none">About Us</a>
-        </li>
-      </ul>
-    </nav>
-  </header>
-
   <section>
-    <div class="imgBx">
-
-      <div id="container">
-        <span id="text1"></span>
-        <span id="text2"></span>
-      </div>
-
-      <svg id="filters">
-        <defs>
-          <filter id="threshold">
-            <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
-                      0 1 0 0 0
-                      0 0 1 0 0
-                      0 0 0 255 -140" />
-          </filter>
-        </defs>
-      </svg>
-    </div>
+  
 
     <div class="contentBx">
       <div class="formBx">
@@ -155,7 +104,7 @@
         errorLabel.textContent = data.error;
       }
       if (data.email) {
-        location.assign('/hiring');
+        location.assign('/');
       }
     } catch (error) {
       console.log("Unexpected error occurred!!!");
