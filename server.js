@@ -250,15 +250,20 @@ app.post("/generate-meal-plan", async (req, res) => {
 IOT
 ------------------------------------*/
 //data fetching from iot sensor
-app.post("/data", (req, res) => {
+app.post("/data", async (req, res) => {
   const data = {
     temperature: req.body.temperature,
     humidity: req.body.humidity,
-    gas: req.body.gas,
+    //gas: req.body.gas,
   };
 
+  //add data to firestore
+  const iotData = `${jwt.verify(req.cookies.jwt, "healthiq").id}`;
+  const dbResponse = await db.collection("iotData").doc(iotData).set(data);
+  console.log(dbResponse);
+  //`Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
   console.log(
-    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
+    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} %`
   );
 
   res.json(data);
