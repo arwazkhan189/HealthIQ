@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Workout - HealthIQ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+
+</head>
+
+<body>
+
+
+    <section>
+        <form>
+            <div class="inputBx">
+                <input type="button" value="getMuscles" onclick="getMuscles()" />
+            </div>
+            <span id="resultMuscles"></span>
+
+            <div class="inputBx">
+                <label for="exerciseByName" class="label">Search Exercise By Name</label>
+                <input type="text" name="exerciseByName" id="exerciseByName" placeholder="Search Exercise By Name..." />
+                <input type="button" value="Search" onclick="exerciseName()" />
+            </div>
+
+            <div class="inputBx">
+                <label for="exerciseByPrimaryMuscle" class="label">Search Exercise By Primary Muscle</label>
+                <input type="text" name="exerciseByPrimaryMuscle" id="exerciseByPrimaryMuscle"
+                    placeholder="Search Exercise By Primary Muscle..." />
+                <input type="button" value="Search" onclick="primaryMuscle()" />
+            </div>
+
+            <div class="inputBx">
+                <label for="exerciseBySecondryMuscle" class="label">Search Exercise By Secondry Muscle</label>
+                <input type="text" name="exerciseBySecondryMuscle" id="exerciseBySecondryMuscle"
+                    placeholder="Search Exercise By Secondry Muscle..." />
+                <input type="button" value="Search" onclick="secondryMuscle()" />
+            </div>
+
+            <span id="results"></span>
+        </form>
+
+    </section>
+
+</body>
+<script>
+
+    function getMuscles() {
+        fetch('/getMuscles')
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("resultMuscles").innerHTML = data;
+            })
+    }
+
+    function exerciseName() {
+        var exerciseByName = document.getElementById("exerciseByName").value;
+        fetch('/exerciseByName/' + exerciseByName)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("results").innerHTML = data;
+            })
+    }
+
+    function primaryMuscle() {
+        var exerciseByPrimaryMuscle = document.getElementById("exerciseByPrimaryMuscle").value;
+        fetch('/exerciseByPrimaryMuscle/' + exerciseByPrimaryMuscle)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("results").innerHTML = data;
+            })
+    }
+
+    function secondryMuscle() {
+        var exerciseBySecondryMuscle = document.getElementById("exerciseBySecondryMuscle").value;
+        fetch('/exerciseBySecondryMuscle/' + exerciseBySecondryMuscle)
+            .then(res => res.json())
+            .then(data => {
+                console.log(data);
+                document.getElementById("results").innerHTML = data;
+            })
+    }
+</script>
+
+</html>

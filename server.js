@@ -1,5 +1,5 @@
 /*------------------------------------
-Express Config
+ExpressConfig
 --------------------------------------*/
 const express = require("express");
 const app = express();
@@ -40,10 +40,8 @@ const templatePath = path.join(__dirname, "/templates");
 app.set("view engine", "hbs");
 app.set("views", templatePath);
 app.use(express.static(staticPath));
-//app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-//app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(cors());
 
@@ -70,7 +68,7 @@ app.get("/", async (req, res) => {
 //----------------------Authentication----------------------------
 //signup (get)
 app.get("/signup", async (req, res) => {
-  res.sendFile(staticPath + "/signup.html");
+  res.sendFile(staticPath + "/page/signup.html");
 });
 
 //signup (post)- create account
@@ -88,7 +86,7 @@ app.post("/signup", async (req, res) => {
 
 //signin (get)
 app.get("/signin", async (req, res) => {
-  res.sendFile(staticPath + "/signin.html");
+  res.sendFile(staticPath + "/page/signin.html");
 });
 
 //signin (post) - to account
@@ -116,14 +114,58 @@ app.get("/signout", requireAuth, async (req, res) => {
     });
 });
 
+//----------------------Profile section----------------------------
+//render profile section
+app.get("/profile", requireAuth, async (req, res) => {
+  try {
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const dietDocRef = db.collection("dietPlan").doc(ID);
+    const dietResponse = await dietDocRef.get();
+    const dietData = dietResponse.data();
+
+    const workoutDocRef = db.collection("workoutPlan").doc(ID);
+    const workoutResponse = await workoutDocRef.get();
+    const workoutData = workoutResponse.data();
+
+    res.render(templatePath + "/profile.hbs", {
+      dietData: dietData,
+      workoutData: workoutData
+    });
+  } catch (error) {
+    res.status(400).json({ error: errorHandler.handleErrors(error) });
+  }
+});
+
+//delete diet plan
+app.post("/deleteDietPlan", requireAuth, async (req, res) => {
+  try {
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const response = await db.collection("dietPlan").doc(ID).delete();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: errorHandler.handleErrors(error) });
+  }
+});
+
+//delete workout plan
+app.post("/deleteWorkoutPlan", requireAuth, async (req, res) => {
+  try {
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const response = await db.collection("workoutPlan").doc(ID).delete();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: errorHandler.handleErrors(error) });
+  }
+});
+
 //----------------------Workout recommendation----------------------------
 //workout
-app.get("/workout", async (req, res) => {
-  res.sendFile(staticPath + "/workout.html");
+app.get("/workout", requireAuth, async (req, res) => {
+  res.sendFile(staticPath + "/page/workout.html");
 });
 
 //get muscles
-app.get("/getMuscles", async (req, res) => {
+app.get("/getMuscles", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
@@ -143,7 +185,7 @@ app.get("/getMuscles", async (req, res) => {
 });
 
 //get exercise by name
-app.get("/exerciseByName/:id", async (req, res) => {
+app.get("/exerciseByName/:id", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
@@ -156,6 +198,7 @@ app.get("/exerciseByName/:id", async (req, res) => {
     };
     const response = await axios.request(options);
     const data = response.data;
+
     res.json(data[0]);
   } catch (error) {
     console.error(error);
@@ -164,7 +207,7 @@ app.get("/exerciseByName/:id", async (req, res) => {
 });
 
 //get exercise by primary muscles
-app.get("/exerciseByPrimaryMuscle/:id", async (req, res) => {
+app.get("/exerciseByPrimaryMuscle/:id", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
@@ -177,6 +220,11 @@ app.get("/exerciseByPrimaryMuscle/:id", async (req, res) => {
     };
     const response = await axios.request(options);
     const data = response.data;
+
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    if (data.length != 0)
+      await db.collection("workoutPlan").doc(ID).set({ data });
+
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -185,7 +233,7 @@ app.get("/exerciseByPrimaryMuscle/:id", async (req, res) => {
 });
 
 //get exercise by Secondry muscles
-app.get("/exerciseBySecondryMuscle/:id", async (req, res) => {
+app.get("/exerciseBySecondryMuscle/:id", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
@@ -198,6 +246,12 @@ app.get("/exerciseBySecondryMuscle/:id", async (req, res) => {
     };
     const response = await axios.request(options);
     const data = response.data;
+
+    //save data to database
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    if (data.length != 0)
+      await db.collection("workoutPlan").doc(ID).set({ data });
+
     res.json(data);
   } catch (error) {
     console.error(error);
@@ -218,12 +272,12 @@ async function makeRequest(endpoint, params) {
 }
 
 //diet
-app.get("/diet", async (req, res) => {
-  res.sendFile(staticPath + "/diet.html");
+app.get("/diet", requireAuth, async (req, res) => {
+  res.sendFile(staticPath + "/page/diet.html");
 });
 
 //generate meal plan
-app.post("/generate-meal-plan", async (req, res) => {
+app.post("/generate-meal-plan", requireAuth, async (req, res) => {
   try {
     const { diet, calories, timeFrame, ingredients } = req.body;
     const exclude = ingredients
@@ -239,6 +293,11 @@ app.post("/generate-meal-plan", async (req, res) => {
       exclude,
     });
 
+    //save data to database
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    if (mealPlan.length != 0)
+      await db.collection("dietPlan").doc(ID).set(mealPlan);
+
     res.json(mealPlan);
   } catch (error) {
     console.error(error);
@@ -249,6 +308,8 @@ app.post("/generate-meal-plan", async (req, res) => {
 /*---------------------------------
 IOT
 ------------------------------------*/
+let sensorData = null;
+
 //data fetching from iot sensor
 app.post("/data", async (req, res) => {
   const data = {
@@ -257,26 +318,33 @@ app.post("/data", async (req, res) => {
     gas: req.body.gas,
   };
 
+  // Store the data in the global variable
+  sensorData = data;
+
+  console.log(
+    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
+  );
+
   //add data to firestore
   //const iotData = `${jwt.verify(req.cookies.jwt, "healthiq").id}`;
   //const dbResponse = await db.collection("iotData").doc(iotData).set(data);
   //console.log(dbResponse);
-  console.log(
-    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
-  );
-  /*console.log(
-    `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} %`
-  );*/
-
-  res.json(data);
-});
-
-//food detect
-app.get("/foodDetect", async (req, res) => {
-  res.sendFile(staticPath + "/foodDetect.html");
 });
 
 //sending iot device data to frontend
+app.get("/iotdata", requireAuth, (req, res) => {
+  // Check if sensorData has been populated
+  if (!sensorData) {
+    res.send({ error: "Sensor data not available" });
+    return;
+  }
+  // Return the sensorData in JSON format
+  res.json(sensorData);
+});
+
+app.get("/foodDetect", requireAuth, (req, res) => {
+  res.sendFile(staticPath + "/page/foodDetect.html");
+});
 
 /*---------------------------------
 app listen

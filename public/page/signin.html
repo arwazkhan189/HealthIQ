@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sign In - HealthIQ</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" />
+
+</head>
+
+<body>
+
+  <section>
+  
+
+    <div class="contentBx">
+      <div class="formBx">
+        <div class="display-heading">
+          <h2>Sign In</h2>
+        </div>
+        <div id="errorLabel"></div>
+        <form>
+          <div class="inputBx">
+            <label for="email" class="label">Email</label>
+            <input type="email" name="email" id="email" required placeholder="Enter your email id..." />
+          </div>
+          <div class="inputBx">
+            <label for="password" class="label">Password</label>
+            <input type="password" name="password" id="password" required placeholder="Enter your password..." />
+          </div>
+
+          <div class="remember">
+            <label><input type="checkbox" id="rememberMe" /> Remember Me</label>
+          </div>
+
+          <div class="inputBx">
+            <input type="submit" value="Sign In" onclick="RememberMe()" />
+          </div>
+
+          <div class="inputBx">
+            <p>Don't have an account? <a href="/signup">Sign Up</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+
+
+
+  </section>
+  <footer class="ftr">
+    <div class="container">
+      <div class="foot2">
+        <p>Copyright &#169; HealthIQ</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="./js/text-animation.js"></script>
+</body>
+<script>
+  const rmCheck = document.getElementById("rememberMe");
+  const email = document.getElementById("email");
+  const password = document.getElementById("password");
+
+  if (localStorage.checkbox && localStorage.checkbox !== "") {
+    rmCheck.setAttribute("checked", "checked");
+    email.value = localStorage.email;
+    password.value = localStorage.password;
+  } else {
+    rmCheck.removeAttribute("checked");
+    email.value = "";
+    password.value = "";
+  }
+
+  function RememberMe() {
+    if (rmCheck.checked && email.value !== "" && password.value !== "") {
+      localStorage.email = email.value;
+      localStorage.password = password.value;
+      localStorage.checkbox = rmCheck.value;
+    } else {
+      localStorage.email = "";
+      localStorage.password = "";
+      localStorage.checkbox = "";
+    }
+  }
+
+  const form = document.querySelector("form");
+  const errorLabel = document.getElementById("errorLabel");
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorLabel.textContent = "";
+    const email = form.email.value;
+    const password = form.password.value;
+    try {
+      const res = await fetch('/signin', {
+        method: 'POST',
+        body: JSON.stringify({ email, password }),
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.error) {
+        errorLabel.textContent = data.error;
+      }
+      if (data.email) {
+        location.assign('/');
+      }
+    } catch (error) {
+      console.log("Unexpected error occurred!!!");
+    }
+  });
+</script>
+
+</html>

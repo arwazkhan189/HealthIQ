@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Diet - HealthIQ</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    <h1>Meal Plan Generator</h1>
+    <form id="mealPlanForm">
+      <label for="diet">Diet:</label>
+      <select name="diet" id="diet">
+        <option value="vegan">Vegan</option>
+        <option value="vegetarian">Vegetarian</option>
+        <option value="pescatarian">Pescatarian</option>
+        <option value="keto">Keto</option>
+      </select><br><br>
+      <label for="calories">Calories:</label>
+      <input type="number" name="calories" id="calories"><br><br>
+      <label for="timeframe">Timeframe:</label>
+      <select name="timeframe" id="timeframe">
+        <option value="day">Day</option>
+        <option value="week">Week</option>
+        <option value="month">Month</option>
+      </select><br><br>
+      <label for="ingredients">Ingredients:</label>
+      <textarea name="ingredients" id="ingredients" rows="5"></textarea><br><br>
+      <button type="submit">Generate Meal Plan</button>
+    </form>
+
+    <div id="mealPlanResult"></div>
+    <script>
+      const mealPlanForm = document.getElementById('mealPlanForm');
+      const mealPlanResult = document.getElementById('mealPlanResult');
+
+      mealPlanForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(mealPlanForm);
+
+        fetch('/generate-meal-plan', {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+          // Display the meal plan data on the page
+          mealPlanResult.textContent = JSON.stringify(data, null, 2);
+        })
+        .catch(error => {
+          // Display any errors that occur
+          mealPlanResult.textContent = error.message;
+        });
+      });
+
+    </script>
+  </body>
+</html>

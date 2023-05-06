@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Food Detect | HealthIQ</title>
+</head>
+
+<body>
+  <h1>Food Detect | HealthIQ</h1>
+  <p>
+    Temperature: <span id="temperature"></span> °C | Humidity: <span id="humidity"></span> % | Gas: <span
+      id="gas"></span> ppm
+  </p>
+
+  <script>
+    // client.js
+    const updateInterval = 1000; // Update interval in milliseconds
+
+    // Function to update the sensor data on the page
+    function updateSensorData() {
+      fetch('/iotdata')
+        .then(response => response.json())
+        .then(data => {
+          const temperatureElement = document.getElementById('temperature');
+          const humidityElement = document.getElementById('humidity');
+          const gasElement = document.getElementById('gas');
+
+          temperatureElement.innerText = data.temperature;
+          humidityElement.innerText = data.humidity;
+          gasElement.innerText = data.gas;
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }
+
+    // Update the sensor data periodically
+    setInterval(updateSensorData, updateInterval);
+  </script>
+</body>
+
+</html>
