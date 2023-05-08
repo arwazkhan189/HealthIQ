@@ -54,6 +54,18 @@ const createToken = (id) => {
   });
 };
 
+//--------------------nodemailer-------------------------------
+const nodemailer = require("nodemailer");
+const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false,
+  auth: {
+    user: key.email,
+    pass: key.password,
+  },
+});
+
 /*-------------------------------------------
 Endpoints
 --------------------------------------------*/
@@ -129,7 +141,7 @@ app.get("/profile", requireAuth, async (req, res) => {
 
     res.render(templatePath + "/profile.hbs", {
       dietData: dietData,
-      workoutData: workoutData
+      workoutData: workoutData,
     });
   } catch (error) {
     res.status(400).json({ error: errorHandler.handleErrors(error) });
@@ -324,12 +336,12 @@ app.post("/data", async (req, res) => {
   console.log(
     `Temperature: ${req.body.temperature} °C | Humidity: ${req.body.humidity} % | Gas: ${req.body.gas} ppm`
   );
-
-  //add data to firestore
-  //const iotData = `${jwt.verify(req.cookies.jwt, "healthiq").id}`;
-  //const dbResponse = await db.collection("iotData").doc(iotData).set(data);
-  //console.log(dbResponse);
 });
+
+//threshold value
+const thresholdTemperature = 33;
+const thresholdHumidity = 62;
+const thresholdGas = 33;
 
 //sending iot device data to frontend
 app.get("/iotdata", requireAuth, (req, res) => {
@@ -338,6 +350,16 @@ app.get("/iotdata", requireAuth, (req, res) => {
     res.send({ error: "Sensor data not available" });
     return;
   }
+
+  // Compare current values and gas with threshold values
+  if (
+    sensorData.temperature > thresholdTemperature ||
+    sensorData.humidity > thresholdHumidity ||
+    sensorData.gas > thresholdGas
+  ) {
+    const rEmail = jwt.verify(req.cookies.jwt, "healthiq").id;
+    sendAlert(sensorData.temperature, sensorData.humidity, sensorData.gas,rEmail);
+  }
   // Return the sensorData in JSON format
   res.json(sensorData);
 });
@@ -345,6 +367,43 @@ app.get("/iotdata", requireAuth, (req, res) => {
 app.get("/foodDetect", requireAuth, (req, res) => {
   res.sendFile(staticPath + "/page/foodDetect.html");
 });
+
+//global values
+//let isEmailSent = false;
+let lastEmailSent = 0;
+
+function sendAlert(temperature, humidity, gas,rEmail) {
+  // Check if an email has already been sent within the past hour
+  const now = Date.now();
+  //if (!isEmailSent || now - lastEmailSent > 3600000) {
+  if (now - lastEmailSent > 3600000) {
+    // Set flag variable to true
+    //isEmailSent = true;
+
+    // Update lastEmailSent time
+    lastEmailSent = now;
+
+    // Update email message with current temperature values
+    const mailOptions = {
+      from: "Alert@HealthIQ.com",
+      to: rEmail,
+      subject: "Food Spoilage Detected",
+      text: `Temperature has exceeded the threshold value of ${thresholdTemperature}°C. The current temperature is ${temperature}°C. \n Humidity has exceeded the threshold value of ${thresholdHumidity}%. The current Humidity is ${humidity}%.\n Methane Gas has exceeded the threshold value of ${thresholdGas}ppm. The current Methane Gas is ${gas}ppm.`,
+    };
+
+    // Send email
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email sent: " + info.response);
+      }
+    });
+  } /*else {
+    // Reset flag variable if temperature has returned to normal range
+    isEmailSent = false;
+  }*/
+}
 
 /*---------------------------------
 app listen
