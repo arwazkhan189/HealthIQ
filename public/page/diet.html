@@ -1,58 +1,314 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Diet - HealthIQ</title>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  </head>
-  <body>
-    <h1>Meal Plan Generator</h1>
-    <form id="mealPlanForm">
-      <label for="diet">Diet:</label>
-      <select name="diet" id="diet">
-        <option value="vegan">Vegan</option>
-        <option value="vegetarian">Vegetarian</option>
-        <option value="pescatarian">Pescatarian</option>
-        <option value="keto">Keto</option>
-      </select><br><br>
-      <label for="calories">Calories:</label>
-      <input type="number" name="calories" id="calories"><br><br>
-      <label for="timeframe">Timeframe:</label>
-      <select name="timeframe" id="timeframe">
-        <option value="day">Day</option>
-        <option value="week">Week</option>
-        <option value="month">Month</option>
-      </select><br><br>
-      <label for="ingredients">Ingredients:</label>
-      <textarea name="ingredients" id="ingredients" rows="5"></textarea><br><br>
-      <button type="submit">Generate Meal Plan</button>
-    </form>
 
-    <div id="mealPlanResult"></div>
-    <script>
-      const mealPlanForm = document.getElementById('mealPlanForm');
-      const mealPlanResult = document.getElementById('mealPlanResult');
+<head>
+  <title>Diet - HealthIQ</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="page/Components/diet.css">
 
-      mealPlanForm.addEventListener('submit', (event) => {
-        event.preventDefault();
+  <link rel="preconnect" href="https://fonts.googleapis.com">
 
-        const formData = new FormData(mealPlanForm);
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
-        fetch('/generate-meal-plan', {
-          method: 'POST',
-          body: formData
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+  <header class="hd">
+        
+    <a href="/">Home</a>
+    <a href="/foodDetect">Fruits Detection</a>
+    <a href="/diet">Diet Plan</a>
+    <a href="/workout">Workout Plan</a>
+    <a href="#" onclick="signOut()" class="signoutBtn">Sign Out</a>
+</header>
+  <div class="diet">
+    <div class="">
+
+      <div class="container mt-5">
+
+
+        <div class="my-5">
+          <h1 class="diet_headline gene_line">Meal Plan <span>Generator</span> </h1>
+        </div>
+
+
+
+
+        <div class="row ">
+          <div class="col-md-6">
+            <div class="cen">
+              <div class="green_back ">
+
+                <div class="my-3">
+                  <h3 class="text-center">
+                    Fill your <span class="span_red">Diet</span> plan
+                  </h3>
+                </div>
+                <form id="mealPlanForm" class="my-5">
+
+                  <div class="form-group">
+                    <label for="diet" class="label">Diet:</label>
+                    <select name="diet" id="diet" class="form-control">
+                      <option value="vegan">Vegan</option>
+                      <option value="vegetarian">Vegetarian</option>
+                      <option value="pescatarian">Pescatarian</option>
+                      <option value="keto">Keto</option>
+                    </select><br><br>
+                  </div>
+
+                  <!-- <label for="diet">Diet:</label>
+                  <select name="diet" id="diet">
+                    <option value="vegan">Vegan</option>
+                    <option value="vegetarian">Vegetarian</option>
+                    <option value="pescatarian">Pescatarian</option>
+                    <option value="keto">Keto</option>
+                  </select><br><br> -->
+
+                  <div class="form-group">
+                    <label for="calories" class="label">Calories:</label>
+                    <input type="number" name="calories" id="calories" class="form-control"><br><br>
+                  </div>
+                  <!-- 
+                  <label for="calories">Calories:</label>
+                  <input type="number" name="calories" id="calories" class="form-control"><br><br> -->
+
+
+                  <div class="form-group">
+                    <label for="timeframe" class="label">Timeframe:</label>
+                    <select name="timeframe" id="timeframe" class="form-control">
+                      <option value="day">Day</option>
+                      <option value="week">Week</option>
+                      <option value="month">Month</option>
+                    </select><br><br>
+                  </div>
+
+                  <!-- <label for="timeframe">Timeframe:</label>
+                  <select name="timeframe" id="timeframe">
+                    <option value="day">Day</option>
+                    <option value="week">Week</option>
+                    <option value="month">Month</option>
+                  </select><br><br> -->
+
+                  <div class="form-group">
+                    <label for="ingredients" class="label">Ingredients:</label>
+                    <textarea name="ingredients" id="ingredients" rows="5" class="form-control"></textarea><br><br>
+                  </div>
+
+                  <!-- <label for="ingredients">Ingredients:</label>
+                  <textarea name="ingredients" id="ingredients" rows="5"></textarea><br><br> -->
+
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-default submit_btn">Generate Meal Plan</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="sec_col">
+              <h1 class="head">
+                Delicious and Nutritious <span class="text-black"> Meal Plans</span> to <span
+                  class="text-black">Fuel</span> Your Lifestyle
+              </h1>
+              <hr>
+              <h4 class="blur_white  my-4 mono lh">
+                Discover our custom meal plans designed to fit your <span class="text-black">dietary needs</span> and
+                <span class="text-black">busy schedule</span>
+              </h4>
+              <div>
+                <img src="page/images/meal.webp" alt="">
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+        <div class="my-5">
+          <div class="container mar_pad_0">
+            <div id="mealPlanResult">
+              <div>
+
+              </div>
+
+            </div>
+
+            <div>
+              <!-- for button  -->
+              <!-- <div class="row">
+                <div class="col-md-6">
+                  <div class="text-center">
+                    <button class="text-center btn btn-default bg_white ">Save Plan</button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="text-center ">
+                    <button class="btn btn-default bg_white">Print Plan</button>
+                  </div>
+                </div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+
+
+
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+    function signOut() {
+        Swal.fire({
+            title: 'Do you want to signout?',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const res = await fetch("/signout", {
+                        method: "GET"
+                    });
+                    if (res.status == 200) {
+                        location.assign("/signin");
+                    } else {
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Oops...',
+                            text: res.status,
+                        });
+                    }
+                } catch (error) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: error,
+                    });
+                }
+            }
         })
-        .then(response => response.json())
+    }
+
+    const mealPlanForm = document.getElementById('mealPlanForm');
+    const mealPlanResult = document.getElementById('mealPlanResult');
+
+    mealPlanForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const formData = new FormData(mealPlanForm);
+
+      fetch('/generate-meal-plan', {
+        method: 'POST',
+        body: formData
+      })
+        .then(response => response.json() )
         .then(data => {
           // Display the meal plan data on the page
-          mealPlanResult.textContent = JSON.stringify(data, null, 2);
-        })
-        .catch(error => {
-          // Display any errors that occur
-          mealPlanResult.textContent = error.message;
-        });
-      });
+          // mealPlanResult.textContent = JSON.stringify(data, null, 2);
 
-    </script>
-  </body>
+          // function getProperty(data, path) {
+          //   var tokens = path.split(".");
+          //   var obj = data;
+          //   for (var i = 0; i < tokens.length; i++) {
+          //     obj = obj[tokens[i]];
+          //   }
+          //   return obj;
+          // }
+
+          const mealPlanResult = document.getElementById('mealPlanResult');
+
+          // const lis = document.querySelector('li');
+          // const thhis = document.getElementById('thhis');
+
+          // console.log(data.week.monday.meals[0].title);
+
+          // data.week.monday.meals.forEach(function (meal) {
+          //   console.log(meal.id);
+
+          //   let listItem = document.createElement("li");
+          //   listItem.textContent = meal;
+          //   mealPlanResult.appendChild(listItem);
+          //   let dayData = "";
+          // let daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+          // for(let i=0; i < daysOfWeek.length; i++){
+          //   dayData  = daysOfWeek[i];
+          // }
+
+          // main 1st
+          function createListItems(data, parent) {
+            for (let key in data) {
+              if (typeof data[key] === "object") {
+
+                let newParent = document.createElement("ul");
+                // let day = newParent.textContent = dayData;
+                parent.appendChild(newParent);
+                // createListItems(data[key], newParent);
+                createListItems(data[key], newParent);
+              } else {
+                let listItem = document.createElement("li");
+                listItem.textContent =data[key]; 
+                console.log(data);
+                // listItem.textContent =` monday + ${data[key]}`; 
+                parent.appendChild(listItem);
+              }
+            }
+          }
+          createListItems(data, mealPlanResult);
+
+          //main 2nd
+          // function createListItems(data, parent, daysOfWeek) {
+          //   for (let i = 0; i < daysOfWeek.length; i++) {
+          //     let dayOfWeek = daysOfWeek[i];
+          //     let dayData = data[dayOfWeek];
+          //     for(let key in data){
+          //       if (typeof data[key] === "object") {
+          //       let newParent = document.createElement("ul");
+          //       parent.appendChild(newParent);
+          //       createListItems(data[key], newParent, daysOfWeek);
+          //     } else {
+          //       let listItem = document.createElement("li");
+          //       listItem.textContent = `${dayOfWeek} - ${data[key]}`;
+          //       parent.appendChild(listItem);
+          //     }
+          //     }
+          //   }
+          // }
+
+          
+          // createListItems(data, mealPlanResult, daysOfWeek);
+
+
+
+
+
+
+
+          // document.getElementById('mealPlanResult').innerHTML = data.week.monday.meals.title;
+
+          // const title = data.week.monday.meals[0].title;
+          // const titleElement = document.createElement('h2');
+          // titleElement.textContent = title;
+
+          // mealPlanResult.appendChild(titleElement);
+
+          // var fields = ["week.monday.meals.id", "week.monday.meals.title", "week.monday.meals.servings"];
+          // for (var i = 0; i < fields.length; i++) {
+          //   var value = getProperty(data, fields[i]);
+          //   console.log(fields[i] + "=" +  value);
+          // }
+
+
+
+        });
+    });
+  </script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
 </html>

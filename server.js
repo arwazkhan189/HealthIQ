@@ -56,6 +56,7 @@ const createToken = (id) => {
 
 //--------------------nodemailer-------------------------------
 const nodemailer = require("nodemailer");
+const { error } = require("console");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -65,6 +66,11 @@ const transporter = nodemailer.createTransport({
     pass: key.password,
   },
 });
+
+//--------------------twilio-------------------------------
+/*const twilioAccountSid = key.twilioAccountSid;
+const twilioAuthToken = key.twilioAuthToken;
+const client = require("twilio")(twilioAccountSid, twilioAuthToken);*/
 
 /*-------------------------------------------
 Endpoints
@@ -164,6 +170,23 @@ app.post("/deleteWorkoutPlan", requireAuth, async (req, res) => {
   try {
     const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
     const response = await db.collection("workoutPlan").doc(ID).delete();
+    res.status(200).json(response);
+  } catch (error) {
+    res.status(400).json({ error: errorHandler.handleErrors(error) });
+  }
+});
+
+//add phone number
+app.post("/addPhoneNumber", requireAuth, async (req, res) => {
+  try {
+    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const phoneNumnerJson = {
+      number: req.body.number,
+    };
+    const response = await db
+      .collection("phoneNumber")
+      .doc(ID)
+      .set(phoneNumnerJson);
     res.status(200).json(response);
   } catch (error) {
     res.status(400).json({ error: errorHandler.handleErrors(error) });
@@ -339,9 +362,9 @@ app.post("/data", async (req, res) => {
 });
 
 //threshold value
-const thresholdTemperature = 33;
-const thresholdHumidity = 62;
-const thresholdGas = 33;
+const thresholdTemperature = 35;
+const thresholdHumidity = 70;
+const thresholdGas = 35;
 
 //sending iot device data to frontend
 app.get("/iotdata", requireAuth, (req, res) => {
@@ -358,13 +381,36 @@ app.get("/iotdata", requireAuth, (req, res) => {
     sensorData.gas > thresholdGas
   ) {
     const rEmail = jwt.verify(req.cookies.jwt, "healthiq").id;
-    sendAlert(sensorData.temperature, sensorData.humidity, sensorData.gas,rEmail);
+    sendAlert(
+      sensorData.temperature,
+      sensorData.humidity,
+      sensorData.gas,
+      rEmail
+    );
   }
   // Return the sensorData in JSON format
   res.json(sensorData);
 });
 
-app.get("/foodDetect", requireAuth, (req, res) => {
+//let rPhoneNumber = "";
+//getting food detect page
+app.get("/foodDetect", requireAuth, async (req, res) => {
+  /*const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+  await db
+    .collection("phoneNumber")
+    .doc(ID)
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        const data = doc.data();
+        rPhoneNumber = data.number;
+      } else {
+        console.log("No such document!");
+      }
+    })
+    .catch((error) => {
+      console.log("Error getting document:", error);
+    });*/
   res.sendFile(staticPath + "/page/foodDetect.html");
 });
 
@@ -372,14 +418,11 @@ app.get("/foodDetect", requireAuth, (req, res) => {
 //let isEmailSent = false;
 let lastEmailSent = 0;
 
-function sendAlert(temperature, humidity, gas,rEmail) {
+function sendAlert(temperature, humidity, gas, rEmail) {
   // Check if an email has already been sent within the past hour
   const now = Date.now();
-  //if (!isEmailSent || now - lastEmailSent > 3600000) {
   if (now - lastEmailSent > 3600000) {
-    // Set flag variable to true
-    //isEmailSent = true;
-
+    
     // Update lastEmailSent time
     lastEmailSent = now;
 
@@ -388,8 +431,14 @@ function sendAlert(temperature, humidity, gas,rEmail) {
       from: "Alert@HealthIQ.com",
       to: rEmail,
       subject: "Food Spoilage Detected",
-      text: `Temperature has exceeded the threshold value of ${thresholdTemperature}°C. The current temperature is ${temperature}°C. \n Humidity has exceeded the threshold value of ${thresholdHumidity}%. The current Humidity is ${humidity}%.\n Methane Gas has exceeded the threshold value of ${thresholdGas}ppm. The current Methane Gas is ${gas}ppm.`,
+      text: `Temperature has exceeded the threshold value of ${thresholdTemperature}°C. The current temperature is ${temperature}°C.\nHumidity has exceeded the threshold value of ${thresholdHumidity}%. The current Humidity is ${humidity}%.\nMethane Gas has exceeded the threshold value of ${thresholdGas}ppm. The current Methane Gas is ${gas}ppm.`,
     };
+
+    //send sms
+    /*if (rPhoneNumber != "") {
+      rPhoneNumber = "+917240974211";
+      sendAlertSMS(temperature, humidity, gas, rPhoneNumber);
+    }*/
 
     // Send email
     transporter.sendMail(mailOptions, function (error, info) {
@@ -399,11 +448,20 @@ function sendAlert(temperature, humidity, gas,rEmail) {
         console.log("Email sent: " + info.response);
       }
     });
-  } /*else {
-    // Reset flag variable if temperature has returned to normal range
-    isEmailSent = false;
-  }*/
+  }
 }
+
+// Send SMS alert
+/*function sendAlertSMS(temperature, humidity, gas, rPhoneNumber) {
+  client.messages
+    .create({
+      body: `Temperature has exceeded the threshold value of ${thresholdTemperature}°C. The current temperature is ${temperature}°C.\nHumidity has exceeded the threshold value of ${thresholdHumidity}%. The current Humidity is ${humidity}%.\nMethane Gas has exceeded the threshold value of ${thresholdGas}ppm. The current Methane Gas is ${gas}ppm.`,
+      from: key.twilioPhoneNumber,
+      to: rPhoneNumber,
+    })
+    .then((message) => console.log(message.sid))
+    .catch((error) => console.log(error));
+}*/
 
 /*---------------------------------
 app listen

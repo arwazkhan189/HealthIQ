@@ -1,0 +1,441 @@
+body {
+    padding: 20px 20px;
+    height: 100vh;
+    /* font-family: 'Lato', sans-serif; */
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(to right bottom, #7ed56f, #28b485);
+    /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(11,154,47,1) 100%); */
+}
+.hd {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    justify-items: center;
+    align-items: center;
+    background-color: white;
+    border-radius: 20px;
+    padding: 15px 15px;
+}
+.hd a{
+    color: #28b485;
+    font-size: 1.13rem;
+    font-weight: 500;
+    font-family: 'Lato';
+    text-decoration: none;
+}
+
+.hd a:hover{
+    color: #7ed56f;
+}
+.diet {}
+
+.green_back {
+    /* background-color: #28b485; */
+    /* background-color: #55c57a; */
+
+    background-color: #d9e6ea;
+    color: black;
+    padding: 20px 20px;
+    box-shadow: 1px 3px 45px 0px rgba(0, 0, 0, 0.81);
+
+}
+
+.cen {
+    /* position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; */
+    /* transform: translate(-50%, -50%); */
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.diet_headline {
+    color: white;
+    font-size: 50px !important;
+}
+
+h1 span {
+    color: black;
+}
+
+.head {
+    color: white;
+}
+
+.submit_btn {
+    background: linear-gradient(90deg, rgba(14, 177, 122, 1) 0%, rgba(86, 207, 65, 1) 100%);
+    color: white !important;
+    text-align: center;
+}
+
+.container {
+    /* position: absolute; */
+    /* top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); */
+}
+
+.blur_white {
+    color: #ffffff9e;
+}
+
+.sec_col {
+    padding: 0px 40px;
+}
+
+.span_red {
+    color: #c10000;
+}
+
+.label {
+    font-size: 20px;
+    padding: 5px 4px;
+}
+
+.gene_line {
+    border-bottom: 4px solid #038103;
+    width: 36%;
+    padding: 10px 0px;
+
+}
+
+.my_ul {
+    text-decoration: none;
+    list-style-type: none;
+}
+
+.mono {
+    font-family: monospace;
+}
+
+.lh {
+    line-height: 40px;
+}
+
+.btn_clr {
+    background-color: black !important;
+    color: white !important;
+}
+
+.list_muscle {
+    color: black;
+    /* color: black; */
+    background-color: white;
+    padding: 7px 5px;
+    text-align: center;
+    font-size: 19px;
+    border-radius: 5px !important;
+}
+
+.bg_white {
+    background: white !important;
+}
+
+.mar_pad_0 {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* dynamic */
+
+
+#mealPlanResult li {
+    /* display: flex;
+    justify-content: space-between; */
+    list-style-type: none;
+    padding: 8px 0px;
+    border-bottom: 2px solid green;
+}
+
+
+#results {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    align-items: stretch;
+}
+
+/* #results ul {
+    width: calc(33.33% - 10px);
+    margin-bottom: 20px;
+}
+
+#results ul:nth-child(3n+1),
+ul:nth-child(3n+2) {
+    margin-right: 20px;
+}
+
+#results ul:last-child {
+    width: calc(33.33% - 0px);
+    margin-right: 0;
+} */
+
+
+
+#mealPlanResult>ul>ul>ul {
+    display: flex;
+    /* background-color: white; */
+    padding: 15px 50px;
+    justify-content: space-evenly;
+    align-content: stretch;
+    flex-wrap: nowrap;
+    /* border: 2px solid black; */
+    flex-direction: column;
+    align-items: stretch;
+}
+
+#mealPlanResult>ul>ul>ul:nth-child(2) {
+    margin: 10px 50px;
+    border: 1px solo;
+    border: 1px solid black;
+    background: white !important;
+    padding: 23px 38px;
+    box-shadow: 1px 3px 45px 0px rgba(0, 0, 0, 0.81);
+}
+
+#mealPlanResult>ul>ul:nth-child(1):before {
+    content: "Monday";
+    text-align: center !important;
+    font-size: 30px;
+    justify-content: center;
+    color: white;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(2):before {
+    content: "Tuesday";
+    text-align: center !important;
+    font-size: 30px;
+    justify-content: center;
+    color: white;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(3):before {
+    content: "Wednesday";
+    text-align: center !important;
+    font-size: 30px;
+    color: white;
+    justify-content: center;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(4):before {
+    content: "Thursday";
+    text-align: center !important;
+    font-size: 30px;
+    color: white;
+    justify-content: center;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(5):before {
+    content: "Friday";
+    text-align: center !important;
+    justify-content: center;
+    font-size: 30px;
+    color: white;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(6):before {
+    content: "Saturday";
+    text-align: center !important;
+    font-size: 30px;
+    justify-content: center;
+    color: white;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul:nth-child(7):before {
+    content: "Sunday";
+    text-align: center !important;
+    font-size: 30px;
+    justify-content: center;
+    color: white;
+    background: black;
+    display: flex;
+}
+
+#mealPlanResult>ul>ul>ul>ul {
+    margin: 10px 0px;
+    border: 1px solo;
+    border: 1px solid black;
+    background: white !important;
+    padding: 23px 38px;
+    box-shadow: 1px 3px 45px 0px rgba(0, 0, 0, 0.81);
+}
+
+
+#mealPlanResult>ul>ul {
+    /* margin: 25px 0px; */
+    margin: 25px 0px;
+    border: 2px solid black;
+    padding: 0;
+    padding-bottom: 40px;
+
+}
+
+/* #mealPlanResult>ul>ul>ul:last-child{
+    display: none;
+} */
+#mealPlanResult>ul>ul>ul:nth-child(2)>li:nth-child(1)::before {
+    content: "Calories-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul:nth-child(2)>li:nth-child(2)::before {
+    content: "Protein-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul:nth-child(2)>li:nth-child(3)::before {
+    content: "Fat-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul:nth-child(2)>li:nth-child(4)::before {
+    content: "Carbohydrates-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+/* this is first of ALL  */
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(1)::before {
+    content: "BreakFast";
+    font-size: 20px;
+    font-weight: 600;
+    padding-right: 30px;
+    color: green;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(1)::before {
+    content: "Lunch";
+    padding-right: 30px;
+    font-weight: 600;
+    font-size: 20px;
+    font-weight: 600;
+    color: green;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(1)::before {
+    content: "Dinner";
+    padding-right: 30px;
+    font-weight: 600;
+    font-size: 20px;
+    font-weight: 600;
+    color: green;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(2),
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(2),
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(2) {
+    display: none;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(3)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(3)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(3)::before {
+    content: "Recipe-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(4)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(4)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(4)::before {
+    content: "Ready In Minutes-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(5)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(5)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(5)::before {
+    content: "Serving-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+#mealPlanResult>ul>ul>ul>ul:nth-child(1)>li:nth-child(6)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(2)>li:nth-child(6)::before,
+#mealPlanResult>ul>ul>ul>ul:nth-child(3)>li:nth-child(6)::before {
+    content: "Recipe Link-:";
+    padding-right: 30px;
+    font-weight: 600;
+}
+
+/* workout  */
+
+#results>ul{
+    margin: 10px 0px;
+    border: 1px solo;
+    border: 1px solid black;
+    list-style-type: none;
+    background: white !important;
+    padding: 23px 38px;
+    box-shadow: 1px 3px 45px 0px rgba(0, 0, 0, 0.81);
+}
+#results>ul>li:nth-child(1)::before{
+    content: "Force-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>li:nth-child(2)::before{
+    content: "Workout Name-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>ul:nth-child(3)::before{
+    content: "Primary Muscle-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>ul:nth-child(4)::before{
+    content: "Secondary Muscle-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>ul:nth-child(3),#results>ul>ul:nth-child(4) {
+     list-style-type: auto;
+}
+#results>ul>li:nth-child(5)::before{
+    content: "Type-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>li:nth-child(5)::before{
+    content: "Type-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>ul:nth-child(6)>li:nth-child(1)::before{
+    content: "Workout Type-:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul>ul:nth-child(6){
+    list-style-type: none;
+}
+#results>ul>li:nth-child(7)::before{
+    content: "Youtube Link -:";
+    font-weight: 600;
+    padding-right: 30px;
+}
+#results>ul *{
+    margin: 10px 0px;
+}

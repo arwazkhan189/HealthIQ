@@ -1,0 +1,109 @@
+body{
+    /* font-family: 'Poppins', sans-serif; */
+    /* background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(11,154,47,1) 100%); */
+    /* background: linear-gradient(90deg, rgba(14,177,122,1) 0%, rgba(86,207,65,1) 100%) !important ; */
+}
+.main_back{
+    /* background-color: #48c94b !important; */
+}
+
+.demo{
+    /* background-color: red; */
+}
+.signup .row{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* width: 80%; */
+    height: 80%;
+}
+.container{
+    /* width: 100%; */
+    /* background-color: #0000ff42; */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+/* .health{
+    position: relative;
+    top: 232px;
+    right: 306px;
+} */
+.glass {
+    backdrop-filter: blur(50px) saturate(148%);
+    -webkit-backdrop-filter: blur(15px) saturate(148%);
+    background-color: rgba(168, 146, 37, 0.72);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+}
+.signup button{
+    display: block;
+    width: 100%;
+    background-color: #5f3db6;
+    border: none;
+    border-radius: 1;
+    border-radius: 3px;
+    color: white;
+}
+.signup button:hover{
+    background-color: #ffaa5b;
+}
+.fades{
+    color: #00000070;
+}
+.primaryyy{
+    color: #5f3db6;
+}
+.primaryyy_background{
+
+
+    color: #5f3db6;
+}
+.paddii{
+    background: linear-gradient(to right bottom, #7ed56f, #28b485);
+    padding: 50px 15px;
+}
+.paddi2{
+    /* border-left: 14px solid #f0f8ff;
+    border-top: 14px solid #f0f8ff;
+    border-bottom: 14px solid #f0f8ff; */
+    padding: 150px 15px;
+}
+.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  .border_main{
+    border: 14px solid #f0f8ff;
+  }
+  .pad_0{
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .in_between{
+    display: flex !important;
+    justify-content: space-between;
+  }
+
+  .deco_none{
+    text-decoration: none !important;
+  }
+
+  .btn-white{
+    background-color: #fff !important;
+    color: #777 !important;
+    align-self: center;
+}
+
+.btn:hover{
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,.2) !important;
+}
+
+.btn:active{
+    transform: translateY(-1px) !important;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, .2) !important;
+}

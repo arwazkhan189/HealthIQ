@@ -3,18 +3,28 @@
 
 <head>
   <title>Food Detect | HealthIQ</title>
+  <link rel="stylesheet" href="page/Components/food.css" />
 </head>
 
 <body>
-  <h1>Food Detect | HealthIQ</h1>
-  <p>
-    Temperature: <span id="temperature"></span> °C | Humidity: <span id="humidity"></span> % | Gas: <span
-      id="gas"></span> ppm
-  </p>
+  <header class="hd">
 
-  <p id="detectSpoil"></p>
-  <p id="alert"></p>
-  <p id="errorDevice"></p>
+    <a href="/">Home</a>
+    <a href="/foodDetect">Fruits Detection</a>
+    <a href="/diet">Diet Plan</a>
+    <a href="/workout">Workout Plan</a>
+    <a href="#" onclick="signOut()" class="signoutBtn">Sign Out</a>
+  </header>
+  <h1>Food Quality Detection</h1>
+  <section class="specs">
+    <p>Temperature: <span id="temperature"></span> °C</p>
+    <p>Humidity: <span id="humidity"></span> %</p>
+    <p>Gas: <span id="gas"></span> ppm</p>
+    <p id="detectSpoil"></p>
+    <p id="alert"></p>
+    <p id="errorDevice"></p>
+  </section>
+
   <script>
     // client.js
     const updateInterval = 1000; // Update interval in milliseconds
@@ -36,16 +46,22 @@
           gasElement.innerText = data.gas;
 
           if (data.temperature == undefined) {
+            errorElement.style.display="block";
             errorElement.innerText = 'Error fetching data from device!';
           } else {
             errorElement.innerText = '';
+            errorElement.style.display="none";
           }
-          if (data.temperature > 33 || data.humidity > 63 || data.gas > 33) {
+          if (data.temperature > 35 || data.humidity > 70 || data.gas > 35) {
+            detectSpoilElement.style.display = "block";
+            alertElement.style.display = "block";
             detectSpoilElement.innerText = "Food is spoiled!";
             alertElement.innerText = "Alert!, Email and Sms sent to the user!";
           } else {
             detectSpoilElement.innerText = "Food is not spoiled!";
             alertElement.innerText = "";
+            detectSpoilElement.style.display = "block";
+            alertElement.style.display = "none";
           }
         })
         .catch(error => {
@@ -57,7 +73,38 @@
 
     // Update the sensor data periodically
     setInterval(updateSensorData, updateInterval);
+    function signOut() {
+      Swal.fire({
+          title: 'Do you want to signout?',
+          showCancelButton: true,
+          confirmButtonText: 'Yes',
+      }).then(async (result) => {
+          if (result.isConfirmed) {
+              try {
+                  const res = await fetch("/signout", {
+                      method: "GET"
+                  });
+                  if (res.status == 200) {
+                      location.assign("/signin");
+                  } else {
+                      Swal.fire({
+                          icon: 'error',
+                          title: 'Oops...',
+                          text: res.status,
+                      });
+                  }
+              } catch (error) {
+                  Swal.fire({
+                      icon: 'error',
+                      title: 'Oops...',
+                      text: error,
+                  });
+              }
+          }
+      })
+  }
   </script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

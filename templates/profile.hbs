@@ -73,7 +73,14 @@
 
         a {
             text-decoration: none;
-            {{!-- color: blue; --}}
+
+                {
+                    {
+                    !-- color: blue;
+                    --
+                }
+            }
+
             margin-left: 5px;
         }
 
@@ -107,11 +114,13 @@
             border-radius: 20px;
             padding: 12px 15px;
         }
-        .hd a{
+
+        .hd a {
             color: white;
             font-size: 1.1rem;
         }
-        td{
+
+        td {
             font-size: 0.8rem;
         }
     </style>
@@ -119,15 +128,27 @@
 </head>
 
 <body>
-    
+
     <header class="hd">
-        
+
         <a href="/">Home</a>
         <a href="/foodDetect">Food Detection</a>
         <a href="/diet">Diet Plan</a>
         <a href="/workout">Workout Plan</a>
         <a href="#" onclick="signOut()" class="signoutBtn">Sign Out</a>
     </header>
+
+    <form>
+        <div class="form-group row">
+            <div class="col-sm-10">
+                <span>Please add your mobile number to get sms alert of Food Spoilage Detection </span><br>
+                <label for="phoneNumber">Phone Number:</label>
+                <input type="text" class="form-control" id="phoneNumber" name="phoneNumber"
+                    placeholder="+917240974211" required>
+            </div> <br>
+            <button type="submit" class="btn btn-primary">Add Phone Number</button>
+        </div>
+    </form>
 
     <h2>Weekly Diet Plan</h2>
     <div class="btn-group">
@@ -363,6 +384,37 @@
         worker.set(opt).from(workoutPlanTable).save();
     }
 
+    //add no. to database
+    const form = document.querySelector("form");
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const number = document.getElementById("phoneNumber").value;
+        try {
+            const res = await fetch('/addPhoneNumber', {
+                method: 'POST',
+                body: JSON.stringify({number}),
+                headers: { 'Content-Type': 'application/json' }
+            });
+            const data = await res.json();
+            if (data.error) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops...',
+                    text: data.error,
+                });
+            }
+            if (data) {
+                Swal.fire({ position: 'top', icon: 'success', title: 'Phone Number Added Successfully', showConfirmButton: false, timer: 2500 })
+                form.reset();
+            }
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: error,
+            });
+        }
+    });
 
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
