@@ -56,10 +56,9 @@ const createToken = (id) => {
 
 //--------------------nodemailer-------------------------------
 const nodemailer = require("nodemailer");
-const { error } = require("console");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587,
+  port: 587 ||465,
   secure: false,
   auth: {
     user: key.email,
@@ -362,9 +361,9 @@ app.post("/data", async (req, res) => {
 });
 
 //threshold value
-const thresholdTemperature = 35;
-const thresholdHumidity = 70;
-const thresholdGas = 35;
+const thresholdTemperature = 40;
+const thresholdHumidity = 50;
+const thresholdGas = 22.5;
 
 //sending iot device data to frontend
 app.get("/iotdata", requireAuth, (req, res) => {
@@ -422,7 +421,6 @@ function sendAlert(temperature, humidity, gas, rEmail) {
   // Check if an email has already been sent within the past hour
   const now = Date.now();
   if (now - lastEmailSent > 3600000) {
-    
     // Update lastEmailSent time
     lastEmailSent = now;
 

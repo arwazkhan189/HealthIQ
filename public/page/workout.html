@@ -22,7 +22,7 @@
 
 <body>
     <header class="hd">
-        
+
         <a href="/">Home</a>
         <a href="/foodDetect">Fruits Detection</a>
         <a href="/diet">Diet Plan</a>
@@ -75,7 +75,7 @@
 
 
 
-                        <!-- next container  -->
+                    <!-- next container  -->
 
                     <div class="my-5">
                         <div class="green_back">
@@ -134,7 +134,7 @@
                             </div>
                           </div>
                         </div> -->
-                      </div>
+                    </div>
                 </form>
 
             </section>
@@ -239,9 +239,27 @@
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                document.getElementById("results").innerHTML = data;
+                // document.getElementById("results").innerHTML = data;
+                var priM = document.getElementById("results");
+
+                function createListItems(data, parent) {
+                    for (let key in data) {
+                        if (typeof data[key] === "object") {
+                            let newParent = document.createElement("ul");
+                            parent.appendChild(newParent);
+                            createListItems(data[key], newParent);
+                        } else {
+                            let listItem = document.createElement("li");
+                            listItem.textContent = data[key];
+                            parent.appendChild(listItem);
+                        }
+                    }
+                }
+
+                createListItems(data, priM);
             })
     }
 </script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </html>

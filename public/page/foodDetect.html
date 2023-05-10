@@ -27,7 +27,7 @@
 
   <script>
     // client.js
-    const updateInterval = 1000; // Update interval in milliseconds
+    const updateInterval = 2000; // Update interval in milliseconds
 
     // Function to update the sensor data on the page
     function updateSensorData() {
@@ -52,7 +52,7 @@
             errorElement.innerText = '';
             errorElement.style.display="none";
           }
-          if (data.temperature > 35 || data.humidity > 70 || data.gas > 35) {
+          if (data.temperature > 40 || data.humidity > 50 || data.gas > 22.5) {
             detectSpoilElement.style.display = "block";
             alertElement.style.display = "block";
             detectSpoilElement.innerText = "Food is spoiled!";
