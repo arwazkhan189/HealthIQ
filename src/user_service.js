@@ -1,5 +1,5 @@
 const firebase = require("firebase/app");
-const key = require("../key.json");
+require("dotenv").config();
 const {
   getAuth,
   signInWithEmailAndPassword,
@@ -8,7 +8,7 @@ const {
 } = require("firebase/auth");
 
 firebase.initializeApp({
-  apiKey: key.apiKey,
+  apiKey: process.env.apiKey,
 });
 
 const auth = getAuth();

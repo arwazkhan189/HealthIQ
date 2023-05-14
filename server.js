@@ -5,13 +5,18 @@ const express = require("express");
 const app = express();
 
 /*------------------------------------
+dotenv
+--------------------------------------*/
+require("dotenv").config();
+
+/*------------------------------------
 Firebase Config
 --------------------------------------*/
-const key = require("./key.json");
+//const key = require("./key.json");
 const { initializeApp, cert } = require("firebase-admin/app");
 const { getFirestore } = require("firebase-admin/firestore");
 initializeApp({
-  credential: cert(key),
+  credential: cert(process.env),
 });
 const db = getFirestore();
 
@@ -49,7 +54,7 @@ app.use(cors());
 const jwt = require("jsonwebtoken");
 const maxAge = 3 * 24 * 60 * 60;
 const createToken = (id) => {
-  return jwt.sign({ id }, "healthiq", {
+  return jwt.sign({ id }, process.env.JWT_TOKEN, {
     expiresIn: maxAge,
   });
 };
@@ -58,17 +63,17 @@ const createToken = (id) => {
 const nodemailer = require("nodemailer");
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 587 ||465,
+  port: 587 || 465,
   secure: false,
   auth: {
-    user: key.email,
-    pass: key.password,
+    user: process.env.email,
+    pass: process.env.password,
   },
 });
 
 //--------------------twilio-------------------------------
-/*const twilioAccountSid = key.twilioAccountSid;
-const twilioAuthToken = key.twilioAuthToken;
+/*const twilioAccountSid = process.env.twilioAccountSid;
+const twilioAuthToken = process.env.twilioAuthToken;
 const client = require("twilio")(twilioAccountSid, twilioAuthToken);*/
 
 /*-------------------------------------------
@@ -135,7 +140,7 @@ app.get("/signout", requireAuth, async (req, res) => {
 //render profile section
 app.get("/profile", requireAuth, async (req, res) => {
   try {
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     const dietDocRef = db.collection("dietPlan").doc(ID);
     const dietResponse = await dietDocRef.get();
     const dietData = dietResponse.data();
@@ -156,7 +161,7 @@ app.get("/profile", requireAuth, async (req, res) => {
 //delete diet plan
 app.post("/deleteDietPlan", requireAuth, async (req, res) => {
   try {
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     const response = await db.collection("dietPlan").doc(ID).delete();
     res.status(200).json(response);
   } catch (error) {
@@ -167,7 +172,7 @@ app.post("/deleteDietPlan", requireAuth, async (req, res) => {
 //delete workout plan
 app.post("/deleteWorkoutPlan", requireAuth, async (req, res) => {
   try {
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     const response = await db.collection("workoutPlan").doc(ID).delete();
     res.status(200).json(response);
   } catch (error) {
@@ -178,7 +183,7 @@ app.post("/deleteWorkoutPlan", requireAuth, async (req, res) => {
 //add phone number
 app.post("/addPhoneNumber", requireAuth, async (req, res) => {
   try {
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     const phoneNumnerJson = {
       number: req.body.number,
     };
@@ -203,10 +208,10 @@ app.get("/getMuscles", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
-      url: key["x-rapidapi-url"] + "muscles/",
+      url: process.env.x_rapidapi_url + "muscles/",
       headers: {
-        "x-rapidapi-key": key["x-rapidapi-key"],
-        "x-rapidapi-host": key["x-rapidapi-host"],
+        "x-rapidapi-key": process.env.x_rapidapi_key,
+        "x-rapidapi-host": process.env.x_rapidapi_host,
       },
     };
     const response = await axios.request(options);
@@ -226,8 +231,8 @@ app.get("/exerciseByName/:id", requireAuth, async (req, res) => {
       url: key["x-rapidapi-url"],
       params: { name: req.params.id },
       headers: {
-        "x-rapidapi-key": key["x-rapidapi-key"],
-        "x-rapidapi-host": key["x-rapidapi-host"],
+        "x-rapidapi-key": process.env.x_rapidapi_key,
+        "x-rapidapi-host": process.env.x_rapidapi_host,
       },
     };
     const response = await axios.request(options);
@@ -245,17 +250,17 @@ app.get("/exerciseByPrimaryMuscle/:id", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
-      url: key["x-rapidapi-url"],
+      url: process.env.x_rapidapi_url,
       params: { primaryMuscle: req.params.id },
       headers: {
-        "x-rapidapi-key": key["x-rapidapi-key"],
-        "x-rapidapi-host": key["x-rapidapi-host"],
+        "x-rapidapi-key": process.env.x_rapidapi_key,
+        "x-rapidapi-host": process.env.x_rapidapi_host,
       },
     };
     const response = await axios.request(options);
     const data = response.data;
 
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     if (data.length != 0)
       await db.collection("workoutPlan").doc(ID).set({ data });
 
@@ -271,18 +276,18 @@ app.get("/exerciseBySecondryMuscle/:id", requireAuth, async (req, res) => {
   try {
     const options = {
       method: "GET",
-      url: key["x-rapidapi-url"],
+      url: process.env.x_rapidapi_url,
       params: { secondaryMuscle: req.params.id },
       headers: {
-        "x-rapidapi-key": key["x-rapidapi-key"],
-        "x-rapidapi-host": key["x-rapidapi-host"],
+        "x-rapidapi-key": process.env.x_rapidapi_key,
+        "x-rapidapi-host": process.env.x_rapidapi_host,
       },
     };
     const response = await axios.request(options);
     const data = response.data;
 
     //save data to database
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     if (data.length != 0)
       await db.collection("workoutPlan").doc(ID).set({ data });
 
@@ -298,7 +303,7 @@ app.get("/exerciseBySecondryMuscle/:id", requireAuth, async (req, res) => {
 async function makeRequest(endpoint, params) {
   const response = await axios.get(`https://api.spoonacular.com${endpoint}`, {
     params: {
-      apiKey: key.diet_api_key,
+      apiKey: process.env.diet_api_key,
       ...params,
     },
   });
@@ -328,7 +333,7 @@ app.post("/generate-meal-plan", requireAuth, async (req, res) => {
     });
 
     //save data to database
-    const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     if (mealPlan.length != 0)
       await db.collection("dietPlan").doc(ID).set(mealPlan);
 
@@ -379,7 +384,7 @@ app.get("/iotdata", requireAuth, (req, res) => {
     sensorData.humidity > thresholdHumidity ||
     sensorData.gas > thresholdGas
   ) {
-    const rEmail = jwt.verify(req.cookies.jwt, "healthiq").id;
+    const rEmail = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
     sendAlert(
       sensorData.temperature,
       sensorData.humidity,
@@ -394,7 +399,7 @@ app.get("/iotdata", requireAuth, (req, res) => {
 //let rPhoneNumber = "";
 //getting food detect page
 app.get("/foodDetect", requireAuth, async (req, res) => {
-  /*const ID = jwt.verify(req.cookies.jwt, "healthiq").id;
+  /*const ID = jwt.verify(req.cookies.jwt, process.env.JWT_TOKEN).id;
   await db
     .collection("phoneNumber")
     .doc(ID)

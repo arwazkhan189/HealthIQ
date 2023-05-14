@@ -1,11 +1,12 @@
 const jwt = require("jsonwebtoken");
 const { auth } = require("firebase-admin");
+require("dotenv").config();
 
 //authentication needed for page
 const requireAuth = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "healthiq", (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_TOKEN, (err, decodedToken) => {
       if (err) {
         res.redirect("/signin");
       } else {
@@ -21,7 +22,7 @@ const requireAuth = (req, res, next) => {
 const checkUser = (req, res, next) => {
   const token = req.cookies.jwt;
   if (token) {
-    jwt.verify(token, "healthiq", async (err, decodedToken) => {
+    jwt.verify(token, process.env.JWT_TOKEN, async (err, decodedToken) => {
       if (err) {
         res.locals.user = null;
         next();
